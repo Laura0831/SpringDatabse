@@ -6,7 +6,7 @@ Tech Stack
 
 Language: Java
 
-Framework: Spring Boot
+Framework: Spring Boot with Spring Data JPA
 
 Containerization: Docker
 
