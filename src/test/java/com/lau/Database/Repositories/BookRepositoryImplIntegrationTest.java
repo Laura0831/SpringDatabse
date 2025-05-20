@@ -81,19 +81,17 @@ public class BookRepositoryImplIntegrationTest {
 
     }
 
-//    @Test
-//    public void BookDeleted(){
-//        Author authorTemp = TestDataUtil.createTestAuthor();
-//        author.create(authorTemp);
-//
-//        Book book = TestDataUtil.createTestBook();
-//        book.setAuthorId(authorTemp.getId());
-//        underTest.create(book);
-//
-//        underTest.delete(book.getIsbn());
-//        Optional<Book> result = underTest.find(book.getIsbn());
-//        assertThat(result).isEmpty();
-//    }
+    @Test
+    public void BookDeleted(){
+        Author author = TestDataUtil.createTestAuthor();
+
+        Book book = TestDataUtil.createTestBook(author);
+        book = underTest.save(book);
+
+        underTest.deleteById(book.getIsbn());
+        Optional<Book> result = underTest.findById(book.getIsbn());
+        assertThat(result).isEmpty();
+    }
 
 
 }
