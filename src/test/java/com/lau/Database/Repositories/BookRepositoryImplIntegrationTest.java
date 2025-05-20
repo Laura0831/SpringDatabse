@@ -46,27 +46,24 @@ public class BookRepositoryImplIntegrationTest {
 
     }
 
-//    @Test
-//    public void MultiplBooksCreated(){
-//        //creates one author that has multiple books
-//        Author authorTemp = TestDataUtil.createTestAuthor2();
-//        author.create(authorTemp);
-//
-//        //book 2
-//        Book book2 = TestDataUtil.createTestBook2();
-//        book2.setAuthorId(authorTemp.getId());
-//        underTest.create(book2);
-//
-//        //book 3
-//        Book book3 = TestDataUtil.createTestBook3();
-//        book3.setAuthorId(authorTemp.getId());
-//        underTest.create(book3);
-//
-//        List<Book> result = underTest.findMany();
-//        assertThat(result).hasSize(2);
-//        assertThat(result).containsExactly(book2, book3);
-//
-//    }
+    @Test
+    public void MultiplBooksCreated(){
+        //creates one author that has multiple books
+        Author author = TestDataUtil.createTestAuthor2();
+
+        //book 2
+        Book book2 = TestDataUtil.createTestBook2(author);
+        book2 = underTest.save(book2);
+
+        //book 3
+        Book book3 = TestDataUtil.createTestBook3(author);
+        book3 = underTest.save(book3);
+
+       Iterable<Book> result = underTest.findAll();
+        assertThat(result).hasSize(2);
+        assertThat(result).containsExactly(book2, book3);
+
+    }
 
 //    @Test
 //    public void updateBooks(){

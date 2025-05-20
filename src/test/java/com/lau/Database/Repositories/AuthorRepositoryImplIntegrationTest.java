@@ -10,6 +10,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,20 +42,20 @@ public class AuthorRepositoryImplIntegrationTest {
 
     }
 
-//    @Test
-//    public void MultipleAuthorsCreated(){
-//        Author author = TestDataUtil.createTestAuthor();
-//        underTest.create(author);
-//        Author author2 = TestDataUtil.createTestAuthor2();
-//        underTest.create(author2);
-//        Author author3 = TestDataUtil.createTestAuthor3();
-//        underTest.create(author3);
-//
-//        List<Author> result = underTest.find();
-//        assertThat(result).hasSize(3);
-//        assertThat(result).containsExactly(author, author2, author3);
-//
-//    }
+    @Test
+    public void MultipleAuthorsCreated(){
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.save(author);
+        Author author2 = TestDataUtil.createTestAuthor2();
+        underTest.save(author2);
+        Author author3 = TestDataUtil.createTestAuthor3();
+        underTest.save(author3);
+
+        Iterable<Author> result = underTest.findAll();
+        assertThat(result).hasSize(3);
+        assertThat(result).containsExactly(author, author2, author3);
+
+    }
 
 //    @Test
 //    public void AuthorUpdated(){
