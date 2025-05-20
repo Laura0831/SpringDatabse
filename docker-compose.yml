@@ -8,4 +8,5 @@ services:
       - "5432:5432"
     restart: always
     environment:
+      POSTGRES_DB: spring_db
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
