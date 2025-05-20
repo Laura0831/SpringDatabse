@@ -57,26 +57,27 @@ public class AuthorRepositoryImplIntegrationTest {
 
     }
 
-//    @Test
-//    public void AuthorUpdated(){
-//        Author author = TestDataUtil.createTestAuthor();
-//        underTest.create(author);
-//        author.setName("Emily Dickens");
-//        underTest.update(author.getId(), author);
-//        Optional<Author> result = underTest.findOne(author.getId());
-//        assertThat(result).isPresent();
-//        assertThat(result.get()).isEqualTo(author);
-//
-//
-//    }
+    @Test
+    public void AuthorUpdated(){
+        Author author = TestDataUtil.createTestAuthor();
+        underTest.save(author);
 
-//
+        author.setName("Emily Dickens");
+        underTest.save( author);
+        Optional<Author> result = underTest.findById(author.getId());
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(author);
+
+
+    }
+
+
 //    @Test
 //    public void AuthorDelete(){
 //        Author author = TestDataUtil.createTestAuthor();
-//        underTest.create(author);
+//        underTest.save(author);
 //        underTest.delete(author.getId());
-//        Optional<Author> result = underTest.findOne(author.getId());
+//        Optional<Author> result = underTest.findById(author.getId());
 //        assertThat(result).isEmpty();
 //    }
 
