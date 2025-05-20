@@ -1,0 +1,104 @@
+package com.lau.Database.Repositories;
+
+
+import com.lau.Database.TestDataUtil;
+import com.lau.Database.domain.Author;
+import com.lau.Database.domain.Book;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
+@ExtendWith(SpringExtension.class)
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+public class BookRepositoryImplIntegrationTest {
+
+    private BookRepository underTest;
+
+
+    // The autowired annotation tells spring to inject dependencies as declared in this constructor
+    @Autowired
+    public BookRepositoryImplIntegrationTest(BookRepository underTest){
+        this.underTest = underTest;
+    }
+
+    @Test
+    public void testBookCreation(){
+
+        Author author = TestDataUtil.createTestAuthor(); //we got to create an author to be allowed access to the foreign key that is connected to the author
+
+        Book book = TestDataUtil.createTestBook(author);
+        //reseting the book value to the new created book that is connected to author, allows for
+        // comparison of the database bookcreated with author and book from the database( which has the author id attached)
+        //This allows for the test to pass
+        book = underTest.save(book);
+        Optional<Book> result =  underTest.findById(book.getIsbn());
+        assertThat(result).isPresent();
+        assertThat(result.get()).isEqualTo(book);
+
+    }
+
+//    @Test
+//    public void MultiplBooksCreated(){
+//        //creates one author that has multiple books
+//        Author authorTemp = TestDataUtil.createTestAuthor2();
+//        author.create(authorTemp);
+//
+//        //book 2
+//        Book book2 = TestDataUtil.createTestBook2();
+//        book2.setAuthorId(authorTemp.getId());
+//        underTest.create(book2);
+//
+//        //book 3
+//        Book book3 = TestDataUtil.createTestBook3();
+//        book3.setAuthorId(authorTemp.getId());
+//        underTest.create(book3);
+//
+//        List<Book> result = underTest.findMany();
+//        assertThat(result).hasSize(2);
+//        assertThat(result).containsExactly(book2, book3);
+//
+//    }
+
+//    @Test
+//    public void updateBooks(){
+//        Author authorTemp = TestDataUtil.createTestAuthor3();
+//        author.create(authorTemp);
+//
+//        Book book4 = TestDataUtil.createTestBook4();
+//        book4.setAuthorId(authorTemp.getId());
+//        underTest.create(book4);
+//
+//        book4.setTitle("Throne of Glass");
+//        underTest.update(book4.getIsbn(), book4);
+//
+//        Optional<Book> result = underTest.find(book4.getIsbn());
+//        assertThat(result).isPresent();
+//        assertThat(result.get()).isEqualTo(book4);
+//
+//    }
+
+//    @Test
+//    public void BookDeleted(){
+//        Author authorTemp = TestDataUtil.createTestAuthor();
+//        author.create(authorTemp);
+//
+//        Book book = TestDataUtil.createTestBook();
+//        book.setAuthorId(authorTemp.getId());
+//        underTest.create(book);
+//
+//        underTest.delete(book.getIsbn());
+//        Optional<Book> result = underTest.find(book.getIsbn());
+//        assertThat(result).isEmpty();
+//    }
+
+
+}
