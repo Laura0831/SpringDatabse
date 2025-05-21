@@ -1,4 +1,4 @@
-version: '3.4.3'
+version: '3.1'
 
 services:
 
@@ -8,5 +8,6 @@ services:
       - "5432:5432"
     restart: always
     environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: spring_db
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
