@@ -1,4 +1,4 @@
-package com.lau.Database.domain;
+package com.lau.Database.domain.Entity;
 
 
 import jakarta.persistence.*;
@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "books")
-public class Book {
+public class BookEntity {
 
     @Id
     private String isbn;
@@ -22,7 +22,7 @@ public class Book {
 
     @ManyToOne(cascade = CascadeType.ALL) //this means if we get a book back, we also get to retrieve the author and all the values in the author class
     @JoinColumn(name = "author_id")
-    private Author author;
+    private AuthorEntity authorEntity;
 
 
 }
