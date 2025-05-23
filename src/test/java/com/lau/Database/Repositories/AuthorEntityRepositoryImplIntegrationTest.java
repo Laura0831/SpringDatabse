@@ -88,7 +88,7 @@ public class AuthorEntityRepositoryImplIntegrationTest {
         underTest.save(authorEntity2);
         AuthorEntity authorEntity3 = TestDataUtil.createTestAuthor3();
         underTest.save(authorEntity3);
-        Iterable<AuthorEntity> result = underTest.AgeLessThan(50);
+        Iterable<AuthorEntity> result = underTest.findByAgeLessThan(50);
 
         assertThat(result).containsExactly(authorEntity2, authorEntity3);
     }
