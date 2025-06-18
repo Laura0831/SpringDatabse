@@ -6,7 +6,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 
-//The purpose of this class is to convert an object of AuthorEntity class (Databse object) to an object of
+//The purpose of this class is to convert an object of AuthorEntity class (Database object) to an object of
 //AuthorDTO (plain data object) and vice versa
 @Component
 public class AuthorMapper implements Mapper<AuthorEntity, AuthorDto> {
@@ -18,12 +18,12 @@ public class AuthorMapper implements Mapper<AuthorEntity, AuthorDto> {
     }
 
     @Override
-    public AuthorDto mapTo(AuthorEntity authorEntity) { //Maps from database obj to a plain object
+    public AuthorDto mapTo(AuthorEntity authorEntity) { //Maps from database obj (Entity) to a plain object (DTO)
         return modelMapper.map(authorEntity, AuthorDto.class);
     }
 
     @Override
-    public AuthorEntity mapFrom(AuthorDto authorDto) { //Maps from plain obj to a database obj
+    public AuthorEntity mapFrom(AuthorDto authorDto) { //Maps from plain obj (DTO) to a database obj (Entity)
         return modelMapper.map(authorDto, AuthorEntity.class);
     }
 }
