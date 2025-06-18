@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthorController {
 
-    private AuthorService authorService;
+    private AuthorService authorService; //calls the author service interface
     private Mapper<AuthorEntity, AuthorDto> authorMapper;
 
     //Constructor
@@ -22,6 +22,7 @@ public class AuthorController {
     }
 
 
+    //recivies a java object, creates a database of the java object (entity), push it to the database and gets the new object from database
     @PostMapping("/authors")
     public AuthorDto createAuthor(@RequestBody AuthorDto author){//parameter comes in as java object, converted from json
         AuthorEntity authorEntity = authorMapper.mapFrom(author); //Converts from plain object to a database object

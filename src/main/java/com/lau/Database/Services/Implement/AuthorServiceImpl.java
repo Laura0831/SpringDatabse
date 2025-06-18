@@ -12,6 +12,7 @@ public class AuthorServiceImpl implements AuthorService {
    private AuthorRepository authorRepo;
 
    public AuthorServiceImpl(AuthorRepository authorRepo){
+
        this.authorRepo = authorRepo;
    }
 
