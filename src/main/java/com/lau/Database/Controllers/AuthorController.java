@@ -5,6 +5,8 @@ import com.lau.Database.Mappers.Mapper;
 import com.lau.Database.Services.AuthorService;
 import com.lau.Database.domain.Entity.AuthorEntity;
 import com.lau.Database.domain.dto.AuthorDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,12 +26,12 @@ public class AuthorController {
 
     //recivies a java object, creates a database of the java object (entity), push it to the database and gets the new object from database
     @PostMapping("/authors")
-    public AuthorDto createAuthor(@RequestBody AuthorDto author){//parameter comes in as java object, converted from json
+    public ResponseEntity<AuthorDto> createAuthor(@RequestBody AuthorDto author){//parameter comes in as java object, converted from json
         AuthorEntity authorEntity = authorMapper.mapFrom(author); //Converts from plain object to a database object
         AuthorEntity savedAuthor = authorService.createAuthor(authorEntity); //saves the new databse input and gets back the new created databse object
 
         //after inserting the new author in the database, the object is mapped back into a plain object but with the new id
-        return authorMapper.mapTo(savedAuthor);
+        return new ResponseEntity<>(authorMapper.mapTo(savedAuthor), HttpStatus.CREATED);
 
     }
 
