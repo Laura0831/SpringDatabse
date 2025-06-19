@@ -5,6 +5,10 @@ import com.lau.Database.Services.BookService;
 import com.lau.Database.domain.Entity.BookEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 @Service //is a bean class
 public class BookServiceImpl implements BookService {
 
@@ -20,5 +24,13 @@ public class BookServiceImpl implements BookService {
     public BookEntity createBook(String isbn, BookEntity book) {
         book.setIsbn(isbn); //makes sure it saves the correct isbn for the book
         return bookRepository.save(book);//implements the JPA save function, to save the database object into the database
+    }
+
+    //returns a list of all the books in the database
+    @Override
+    public List<BookEntity> findAll() {
+       return StreamSupport.stream(bookRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+
     }
 }

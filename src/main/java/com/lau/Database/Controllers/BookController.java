@@ -8,10 +8,10 @@ import com.lau.Database.domain.dto.BookDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.lau.Database.Mappers.Mapper;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 public class BookController {
@@ -35,6 +35,14 @@ public class BookController {
         BookDto bookDto = BookMapper.mapTo(savedBook);
 
         return new ResponseEntity<>(bookDto, HttpStatus.CREATED);
+    }
+
+
+
+    @GetMapping(path = "/books")
+    public List<BookDto> listOfBooks(){
+        List<BookEntity> books = bookService.findAll();
+        return books.stream().map(BookMapper::mapTo).collect(Collectors.toList());
     }
 
 
