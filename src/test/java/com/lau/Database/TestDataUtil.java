@@ -2,6 +2,8 @@ package com.lau.Database;
 
 import com.lau.Database.domain.Entity.AuthorEntity;
 import com.lau.Database.domain.Entity.BookEntity;
+import com.lau.Database.domain.dto.AuthorDto;
+import com.lau.Database.domain.dto.BookDto;
 
 public final class TestDataUtil {
 
@@ -33,6 +35,8 @@ public final class TestDataUtil {
 
 
 
+
+
     public static BookEntity createTestBook(final AuthorEntity authorEntity) {
         return BookEntity.builder()
                 .isbn("978-1-2345-6789-0")
@@ -60,6 +64,14 @@ public final class TestDataUtil {
                 .isbn("978-1-6196-3518-0")
                 .title("Acotar")
                 .authorEntity(authorEntity)
+                .build();
+    }
+
+    public static BookDto createTestBookDto(final AuthorDto authorDto) {
+        return BookDto.builder()
+                .isbn("978-1-6196-3518-0")
+                .title("Acotar")
+                .authorDto(authorDto)
                 .build();
     }
 }
