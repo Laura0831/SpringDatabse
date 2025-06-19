@@ -93,5 +93,49 @@ public class BookControllerIntegrationTest {
     }
 
 
+    //READ Method Test
+    @Test
+    public void BookFound() throws Exception {
+
+        BookEntity book = TestDataUtil.createTestBook2(null); //creates one author on the database
+        bookService.createBook(book.getIsbn(), book);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/books/"+ book.getIsbn())
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk()
+                );
+
+    }
+
+    @Test
+    public void BookNotFound() throws Exception {
+
+        BookEntity book = TestDataUtil.createTestBook2(null); //creates one author on the database
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/books/"+ book.getIsbn())
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNotFound()
+                );
+
+    }
+
+
+    @Test
+    public void BookFoundAndCorrect() throws Exception {
+
+        BookEntity book = TestDataUtil.createTestBook2(null); //creates one author on the database
+        bookService.createBook(book.getIsbn(), book);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/books/"+ book.getIsbn())
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value("978-0-5934-4087-2"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Book Lovers")
+                );
+
+    }
+
 
 }
