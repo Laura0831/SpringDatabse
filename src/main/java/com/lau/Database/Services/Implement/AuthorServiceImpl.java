@@ -21,7 +21,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public AuthorEntity createAuthor(AuthorEntity authorEntity) {
 
-        return authorRepo.save(authorEntity); //implements the JPA save function
+        return authorRepo.save(authorEntity); //implements the JPA save function, to save the database object into the database
 
     }
 }
