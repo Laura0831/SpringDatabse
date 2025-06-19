@@ -3,6 +3,7 @@ package com.lau.Database.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lau.Database.Services.AuthorService;
 import com.lau.Database.TestDataUtil;
 import com.lau.Database.domain.Entity.AuthorEntity;
 import org.junit.jupiter.api.Test;
@@ -26,9 +27,14 @@ public class AuthorControllerIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc; //uses field Injection, so a constructor is not needed
+
+    @Autowired
+    private AuthorService authorService;
     private final ObjectMapper objMap = new ObjectMapper();
 
 
+
+    //POST/CREATE Method Tests
 
     @Test //test to make sure author was created successfully
     public void CreateAuthorSuccessfully() throws Exception {
@@ -60,5 +66,38 @@ public class AuthorControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Emily Henry"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(45)); //similar to AssertTrue on Junit
     }
+
+
+
+
+    //GET Method Tests
+
+    @Test
+    public void ListAuthorReturned() throws Exception {
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/authors")
+                        .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(MockMvcResultMatchers.status().isOk()
+        );
+    }
+
+
+    @Test
+    public void ActualListAuthorReturned() throws Exception {
+
+        AuthorEntity author = TestDataUtil.createTestAuthor(); //creates one author on the database
+        authorService.createAuthor(author);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/authors")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").isNumber())
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("Abigail Rose"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].age").value(80)); //similar to AssertTrue on Junit
+
+    }
+
 
 }
