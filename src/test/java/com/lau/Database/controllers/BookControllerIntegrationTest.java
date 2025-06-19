@@ -3,7 +3,11 @@ package com.lau.Database.controllers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lau.Database.Services.AuthorService;
+import com.lau.Database.Services.BookService;
 import com.lau.Database.TestDataUtil;
+import com.lau.Database.domain.Entity.AuthorEntity;
+import com.lau.Database.domain.Entity.BookEntity;
 import com.lau.Database.domain.dto.BookDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -27,6 +31,8 @@ public class BookControllerIntegrationTest {
     private MockMvc mockMvc; //uses field Injection, so a constructor is not needed
     private final ObjectMapper objMap = new ObjectMapper();
 
+    @Autowired
+    private BookService bookService;
 
     @Test
     public void CreateBookSuccessfully() throws Exception {
@@ -57,6 +63,35 @@ public class BookControllerIntegrationTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Acotar"));
 
     }
+
+
+
+    @Test
+    public void ListBookReturned() throws Exception {
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/books")
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk()
+                );
+
+    }
+
+
+    @Test
+    public void ActualListBookReturned() throws Exception {
+
+        BookEntity book = TestDataUtil.createTestBook3(null); //creates one author on the database
+        bookService.createBook(book.getIsbn(), book);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.get("/books")
+                                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].isbn").value("978-1-9848-0675-8"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("People we meet on Vacation")); //similar to AssertTrue on Junit
+
+    }
+
 
 
 }
