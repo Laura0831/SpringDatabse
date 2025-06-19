@@ -43,6 +43,10 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public Optional<AuthorEntity> findOne(long id) {
-        return Optional.empty();
+
+       return authorRepo.findById(id);
+
+
+
     }
 }
