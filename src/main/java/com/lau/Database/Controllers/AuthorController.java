@@ -5,14 +5,13 @@ import com.lau.Database.Mappers.Mapper;
 import com.lau.Database.Services.AuthorService;
 import com.lau.Database.domain.Entity.AuthorEntity;
 import com.lau.Database.domain.dto.AuthorDto;
+import lombok.Locked;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -48,6 +47,18 @@ public class AuthorController {
         return authors.stream().map(authorMapper::mapTo).collect(Collectors.toList()); //converts the entities to Dto list
 
     }
+
+    @GetMapping(path = "/authors/{id}")
+    public ResponseEntity<AuthorDto> getAuthor(@PathVariable("id") long id){
+        Optional<AuthorEntity> foundAuthor = authorService.findOne(id); //returns an optional incase the author cannot be found in the databse
+
+       return foundAuthor.map(authorEntity -> { //If foundAuthor contains a value (i.e., the author was found), it executes the lambda function:
+            AuthorDto author = authorMapper.mapTo(authorEntity);
+            return new ResponseEntity<>(author, HttpStatus.OK); //creates a 200 OK HTTP response with the AuthorDto as the body
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND)); //If foundAuthor is empty, returns a response with 404 NOT FOUND status
+
+    }
+
 
 
 

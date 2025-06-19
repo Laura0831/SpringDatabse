@@ -7,6 +7,7 @@ import com.lau.Database.domain.Entity.AuthorEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -38,5 +39,10 @@ public class AuthorServiceImpl implements AuthorService {
                false) //This converts the Spliterator into a sequential stream (false means not parallel)
                .collect(Collectors.toList()); //This collects all the elements in the stream into a List
 
+    }
+
+    @Override
+    public Optional<AuthorEntity> findOne(long id) {
+        return Optional.empty();
     }
 }
