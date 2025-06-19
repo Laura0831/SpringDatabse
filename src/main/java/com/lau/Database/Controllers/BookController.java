@@ -2,6 +2,7 @@ package com.lau.Database.Controllers;
 
 
 import com.lau.Database.Services.BookService;
+import com.lau.Database.domain.Entity.AuthorEntity;
 import com.lau.Database.domain.Entity.BookEntity;
 import com.lau.Database.domain.dto.AuthorDto;
 import com.lau.Database.domain.dto.BookDto;
@@ -11,6 +12,7 @@ import com.lau.Database.Mappers.Mapper;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -45,5 +47,18 @@ public class BookController {
         return books.stream().map(BookMapper::mapTo).collect(Collectors.toList());
     }
 
+
+    @GetMapping(path = "/books/{isbn}")
+    public ResponseEntity<BookDto> GetBook(@PathVariable("isbn") String isbn){
+
+        Optional<BookEntity> foundBook = bookService.findOne(isbn);
+
+        return foundBook.map(BookEntity-> { //If foundBook contains a value (i.e., the Book was found), it executes the lambda function:
+            BookDto book = BookMapper.mapTo(BookEntity);
+            return new ResponseEntity<>(book, HttpStatus.OK); //creates a 200 OK HTTP response with the BookDto as the body
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
+
+    }
 
 }

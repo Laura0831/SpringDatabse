@@ -2,10 +2,12 @@ package com.lau.Database.Services.Implement;
 
 import com.lau.Database.Repositories.BookRepository;
 import com.lau.Database.Services.BookService;
+import com.lau.Database.domain.Entity.AuthorEntity;
 import com.lau.Database.domain.Entity.BookEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -32,5 +34,10 @@ public class BookServiceImpl implements BookService {
        return StreamSupport.stream(bookRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
 
+    }
+
+    @Override
+    public Optional<BookEntity> findOne(String isbn) {
+        return bookRepository.findById(isbn);
     }
 }
