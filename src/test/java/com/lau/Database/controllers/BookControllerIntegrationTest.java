@@ -137,5 +137,10 @@ public class BookControllerIntegrationTest {
 
     }
 
+    @Test
+    public void BookDeletedCorrect(){
+
+    }
+
 
 }
