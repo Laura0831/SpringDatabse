@@ -139,6 +139,11 @@ public class AuthorControllerIntegrationTest {
     }
 
     @Test
+    public void AuthorUpdateCorrect(){
+
+    }
+
+    @Test
     public void AuthorDeletedCorrect(){
 
     }
