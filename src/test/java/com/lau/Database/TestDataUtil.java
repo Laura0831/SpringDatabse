@@ -26,10 +26,24 @@ public final class TestDataUtil {
                 .build();
     }
 
+    public static AuthorDto createTestAuthor2_DTO() {
+        return AuthorDto.builder()
+                .name("Emily Henry")
+                .age(45)
+                .build();
+    }
+
     public static AuthorEntity createTestAuthor3() {
         return AuthorEntity.builder()
                 .name("Sarah Mass")
                 .age(32)
+                .build();
+    }
+
+    public static AuthorDto createTestAuthor4DTO() {
+        return AuthorDto.builder()
+                .name("Elsie Silver")
+                .age(25)
                 .build();
     }
 

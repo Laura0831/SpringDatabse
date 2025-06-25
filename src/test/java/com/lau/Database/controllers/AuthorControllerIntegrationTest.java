@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lau.Database.Services.AuthorService;
 import com.lau.Database.TestDataUtil;
 import com.lau.Database.domain.Entity.AuthorEntity;
+import com.lau.Database.domain.dto.AuthorDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -136,10 +137,42 @@ public class AuthorControllerIntegrationTest {
                 );
     }
 
-    @Test
-    public void AuthorUpdateCorrect(){
 
+
+
+
+    //UPDATE method Tests
+
+    @Test
+    public void AuthorUpdate_NoAuthorFound() throws Exception {
+
+        AuthorDto author = TestDataUtil.createTestAuthor4DTO(); //creates one author on the database
+        String authorJson = objMap.writeValueAsString(author); //converting a java object to a JSON string
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/authors/99")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(authorJson))
+                .andExpect(MockMvcResultMatchers.status().isNotFound()
+                );
     }
+
+    @Test
+    public void AuthorUpdateFound() throws Exception {
+
+        AuthorEntity author = TestDataUtil.createTestAuthor2(); //creates one author on the database
+        AuthorEntity savedAuthor = authorService.save(author);
+
+        AuthorDto authorD = TestDataUtil.createTestAuthor2_DTO();
+        String authorJson = objMap.writeValueAsString(authorD); //converting a java object to a JSON string
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/authors/" + savedAuthor.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(authorJson))
+                .andExpect(MockMvcResultMatchers.status().isOk()
+                );
+    }
+
+
 
     @Test
     public void AuthorDeletedCorrect(){
