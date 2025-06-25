@@ -1,7 +1,6 @@
 package com.lau.Database.controllers;
 
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lau.Database.Services.AuthorService;
 import com.lau.Database.TestDataUtil;
@@ -15,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.assertj.MockMvcTester;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -87,7 +85,7 @@ public class AuthorControllerIntegrationTest {
     public void ActualListAuthorReturned() throws Exception {
 
         AuthorEntity author = TestDataUtil.createTestAuthor(); //creates one author on the database
-        authorService.createAuthor(author);
+        authorService.save(author);
 
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/authors")
@@ -105,7 +103,7 @@ public class AuthorControllerIntegrationTest {
     public void AuthorFound() throws Exception {
 
         AuthorEntity author = TestDataUtil.createTestAuthor2(); //creates one author on the database
-        authorService.createAuthor(author);
+        authorService.save(author);
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/authors/1")
                                 .contentType(MediaType.APPLICATION_JSON))
@@ -117,7 +115,7 @@ public class AuthorControllerIntegrationTest {
     public void AuthorNotFound() throws Exception {
 
         AuthorEntity author = TestDataUtil.createTestAuthor2(); //creates one author on the database
-        authorService.createAuthor(author);
+        authorService.save(author);
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/authors/5")
                                 .contentType(MediaType.APPLICATION_JSON))
@@ -129,7 +127,7 @@ public class AuthorControllerIntegrationTest {
     public void AuthorFoundAndCorrect() throws Exception {
 
         AuthorEntity author = TestDataUtil.createTestAuthor2(); //creates one author on the database
-        authorService.createAuthor(author);
+        authorService.save(author);
         mockMvc.perform(
                         MockMvcRequestBuilders.get("/authors/1")
                                 .contentType(MediaType.APPLICATION_JSON))

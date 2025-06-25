@@ -5,7 +5,6 @@ import com.lau.Database.Mappers.Mapper;
 import com.lau.Database.Services.AuthorService;
 import com.lau.Database.domain.Entity.AuthorEntity;
 import com.lau.Database.domain.dto.AuthorDto;
-import lombok.Locked;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,7 +30,7 @@ public class AuthorController {
     @PostMapping("/authors")
     public ResponseEntity<AuthorDto> createAuthor(@RequestBody AuthorDto author){//parameter comes in as java object, converted from json
         AuthorEntity authorEntity = authorMapper.mapFrom(author); //Converts from plain object to a database object
-        AuthorEntity savedAuthor = authorService.createAuthor(authorEntity); //saves the new databse input and gets back the new created databse object
+        AuthorEntity savedAuthor = authorService.save(authorEntity); //saves the new databse input and gets back the new created databse object
 
         //after inserting the new author in the database, the object is mapped back into a plain object but with the new id
         return new ResponseEntity<>(authorMapper.mapTo(savedAuthor), HttpStatus.CREATED);
@@ -59,6 +58,23 @@ public class AuthorController {
 
     }
 
+
+    @PutMapping(path = "/authors/{id}")
+    public ResponseEntity<AuthorDto> fullUpdateAuthor(@PathVariable("id") Long id, @RequestBody AuthorDto author){
+
+        if(!authorService.isExists(id)){
+            return new ResponseEntity<AuthorDto>(HttpStatus.NOT_FOUND);
+        }
+        else{
+            author.setId(id);
+           AuthorEntity newAuthor =  authorMapper.mapFrom(author);
+            AuthorEntity UpdatedAuthor = authorService.save(newAuthor);
+            AuthorDto transformAuthor = authorMapper.mapTo(UpdatedAuthor);
+            return new ResponseEntity<AuthorDto>(transformAuthor, HttpStatus.OK);
+        }
+
+
+    }
 
 
 

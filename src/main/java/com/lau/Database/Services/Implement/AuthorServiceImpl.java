@@ -24,7 +24,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     // Takes in a database object and inserts it into the database and returns the new Object but with a ID set
     @Override
-    public AuthorEntity createAuthor(AuthorEntity authorEntity) {
+    public AuthorEntity save(AuthorEntity authorEntity) {
 
         return authorRepo.save(authorEntity); //implements the JPA save function, to save the database object into the database
 
@@ -48,5 +48,10 @@ public class AuthorServiceImpl implements AuthorService {
 
 
 
+    }
+
+    @Override
+    public boolean isExists(Long id) {
+        return authorRepo.existsById(id);
     }
 }
