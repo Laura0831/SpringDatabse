@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -90,6 +91,13 @@ public class AuthorController {
             return new ResponseEntity<AuthorDto>(transformAuthor, HttpStatus.OK);
         }
 
+    }
+
+
+    @DeleteMapping(path ="/authors/{id}" )
+    public ResponseEntity<AuthorDto> DeleteAuthor(@PathVariable("id") Long id){
+         authorService.delete(id);
+         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
