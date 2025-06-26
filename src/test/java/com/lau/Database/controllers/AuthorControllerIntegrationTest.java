@@ -173,6 +173,34 @@ public class AuthorControllerIntegrationTest {
     }
 
 
+    @Test
+    public void AuthorUpdateCorrectly() throws Exception {
+
+        //this author is saved in the database
+        AuthorEntity author = TestDataUtil.createTestAuthor2(); //creates one author on the database
+        AuthorEntity savedAuthor = authorService.save(author); //it simulates that an author already exists in the database
+
+
+        //this author is NOT saved in the database (temp author)
+        AuthorEntity authorDTO = TestDataUtil.createTestAuthor3(); //creates a new author. The one that will be use to update the existing one
+        authorDTO.setId(savedAuthor.getId()); //sets the new author id to the already existing one
+        String authorJson = objMap.writeValueAsString(authorDTO); //creates a JSON to use as the update information that is send to the controller
+
+
+        //send a PUT request to /authors/1 to update the existing author with the new name and age
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/authors/" + savedAuthor.getId()) //sends an HTTP put request to update the saved author
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(authorJson))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(savedAuthor.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value(authorDTO.getName()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(authorDTO.getAge())
+                );
+    }
+
+
+
+
 
     @Test
     public void AuthorDeletedCorrect(){
