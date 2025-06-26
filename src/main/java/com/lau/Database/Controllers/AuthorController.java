@@ -77,6 +77,13 @@ public class AuthorController {
     }
 
 
+    @PatchMapping(path ="/authors/{id}" )
+    public ResponseEntity<AuthorDto> partialUpdate(@PathVariable("id") Long id, @RequestBody AuthorDto author)){
+
+
+    }
+
+
 
 
 }
