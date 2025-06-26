@@ -203,20 +203,19 @@ public class BookControllerIntegrationTest {
 
     // makes sure the updated book is done correctly with the values correct
     @Test
-    public void BookUpdatedCorrect() throws Exception {
+    public void BookPartialUpdateCorrect() throws Exception {
         BookEntity book = TestDataUtil.createTestBook2(null); //creates a book object in the database
         BookEntity savedBook = bookService.createBook(book.getIsbn(), book);
 
         BookDto tempBook = TestDataUtil.createTestBookDto(null);
-        tempBook.setIsbn(savedBook.getIsbn());
         tempBook.setTitle("Funny Story");
         String bookJson = objMap.writeValueAsString(tempBook);
 
         mockMvc.perform(
-                        MockMvcRequestBuilders.put("/books/" + savedBook.getIsbn())
+                        MockMvcRequestBuilders.patch("/books/" + savedBook.getIsbn())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(bookJson))
-                .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value("978-0-5934-4087-2"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value(book.getIsbn()))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Funny Story")
                 );
 
