@@ -201,8 +201,39 @@ public class AuthorControllerIntegrationTest {
 
 
     @Test
-    public void PartialUpdate(){
+    public void PartialUpdateFound() throws Exception{
+        AuthorEntity author = TestDataUtil.createTestAuthor2(); //creates one author on the database
+        AuthorEntity savedAuthor = authorService.save(author); //save in the database
 
+
+        AuthorDto authorD = TestDataUtil.createTestAuthor2_DTO();
+        authorD.setName("Emma Hill");
+        String authorJson = objMap.writeValueAsString(authorD); //converting a java object to a JSON string
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/authors/" + savedAuthor.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(authorJson))
+                .andExpect(MockMvcResultMatchers.status().isOk()
+                );
+    }
+
+    @Test
+    public void PartialUpdateSuccessfully() throws Exception{
+        AuthorEntity author = TestDataUtil.createTestAuthor2(); //creates one author on the database
+        AuthorEntity savedAuthor = authorService.save(author); //save in the database
+
+
+        AuthorDto authorD = TestDataUtil.createTestAuthor2_DTO();
+        authorD.setName("Emma Hill");
+        String authorJson = objMap.writeValueAsString(authorD); //converting a java object to a JSON string
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/authors/" + savedAuthor.getId())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(authorJson))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(savedAuthor.getId()))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.name").value("Emma Hill"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.age").value(authorD.getAge())
+                );
     }
 
 
