@@ -241,8 +241,30 @@ public class AuthorControllerIntegrationTest {
 
 
     @Test
-    public void AuthorDeletedCorrect(){
-
+    public void NonExistingAuthorDeleted() throws Exception{
+        mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/authors/50")
+                                .contentType(MediaType.APPLICATION_JSON))
+                                .andExpect(MockMvcResultMatchers.status().isNoContent()
+                );
     }
+
+
+
+
+    @Test
+    public void AuthorDeletedSuccessfully() throws Exception{
+        AuthorEntity author = TestDataUtil.createTestAuthor2(); //creates one author on the database
+        AuthorEntity savedAuthor = authorService.save(author); //save in the database
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.delete("/authors/"+ author.getId())
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isNoContent()
+                );
+    }
+
+
+
 
 }
