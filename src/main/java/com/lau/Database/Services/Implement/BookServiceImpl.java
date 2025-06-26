@@ -40,4 +40,9 @@ public class BookServiceImpl implements BookService {
     public Optional<BookEntity> findOne(String isbn) {
         return bookRepository.findById(isbn);
     }
+
+    @Override
+    public boolean isExists(String isbn) {
+        return bookRepository.existsById(isbn);
+    }
 }

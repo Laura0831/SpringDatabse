@@ -2,9 +2,7 @@ package com.lau.Database.Controllers;
 
 
 import com.lau.Database.Services.BookService;
-import com.lau.Database.domain.Entity.AuthorEntity;
 import com.lau.Database.domain.Entity.BookEntity;
-import com.lau.Database.domain.dto.AuthorDto;
 import com.lau.Database.domain.dto.BookDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,13 +28,20 @@ public class BookController {
 
 
     @PutMapping("/books/{isbn}")
-    public ResponseEntity<BookDto> createBook(@PathVariable("isbn") String isbn, @RequestBody BookDto Book){
+    public ResponseEntity<BookDto> createBook_UpdateBook(@PathVariable("isbn") String isbn, @RequestBody BookDto Book){
 
         BookEntity bookEntity = BookMapper.mapFrom(Book); //Converts from plain object to a database object
+        boolean foundBook = bookService.isExists(isbn); //we want to check if it exists BEFORE we create a new book
         BookEntity savedBook = bookService.createBook(isbn, bookEntity); //calls the service class for book and that calls the create method to add the new databse object
         BookDto bookDto = BookMapper.mapTo(savedBook);
 
-        return new ResponseEntity<>(bookDto, HttpStatus.CREATED);
+        if(foundBook){
+            return new ResponseEntity<>(bookDto, HttpStatus.OK);
+        }
+        else{
+            return new ResponseEntity<>(bookDto, HttpStatus.CREATED);
+        }
+
     }
 
 
@@ -58,7 +63,9 @@ public class BookController {
             return new ResponseEntity<>(book, HttpStatus.OK); //creates a 200 OK HTTP response with the BookDto as the body
         }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 
-
     }
+
+
+
 
 }
