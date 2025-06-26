@@ -200,6 +200,13 @@ public class AuthorControllerIntegrationTest {
 
 
 
+    @Test
+    public void PartialUpdate(){
+
+    }
+
+
+
 
 
     @Test
