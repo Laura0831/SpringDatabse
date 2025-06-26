@@ -137,10 +137,51 @@ public class BookControllerIntegrationTest {
 
     }
 
+
+    //makes sure the book is updated and the status is a 200 (update)
     @Test
-    public void BookUpdatedCorrect(){
+    public void BookUpdatedSuccessfully() throws Exception {
+        BookEntity book = TestDataUtil.createTestBook(null); //creates a book object in the database
+        BookEntity savedBook = bookService.createBook(book.getIsbn(), book);
+
+        BookDto tempBook = TestDataUtil.createTestBookDto(null);
+        tempBook.setIsbn(savedBook.getIsbn());
+        String bookJson = objMap.writeValueAsString(tempBook);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/books/978-1-2345-6789-0")
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(bookJson))
+                .andExpect(MockMvcResultMatchers.status().isOk()
+                );
+
 
     }
+
+    // makes sure the updated book is done correctly with the values correct
+    @Test
+    public void BookUpdatedCorrect() throws Exception {
+        BookEntity book = TestDataUtil.createTestBook2(null); //creates a book object in the database
+        BookEntity savedBook = bookService.createBook(book.getIsbn(), book);
+
+        BookDto tempBook = TestDataUtil.createTestBookDto(null);
+        tempBook.setIsbn(savedBook.getIsbn());
+        tempBook.setTitle("Funny Story");
+        String bookJson = objMap.writeValueAsString(tempBook);
+
+        mockMvc.perform(
+                        MockMvcRequestBuilders.put("/books/" + savedBook.getIsbn())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(bookJson))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.isbn").value("978-0-5934-4087-2"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.title").value("Funny Story")
+                );
+
+
+    }
+
+
+
 
     @Test
     public void BookDeletedCorrect(){
