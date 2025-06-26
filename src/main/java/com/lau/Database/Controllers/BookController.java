@@ -27,7 +27,7 @@ public class BookController {
 
 
 
-    @PutMapping("/books/{isbn}")
+    @PutMapping(path = "/books/{isbn}")
     public ResponseEntity<BookDto> createBook_UpdateBook(@PathVariable("isbn") String isbn, @RequestBody BookDto Book){
 
         BookEntity bookEntity = BookMapper.mapFrom(Book); //Converts from plain object to a database object
@@ -43,6 +43,28 @@ public class BookController {
         }
 
     }
+
+
+
+
+    @PatchMapping(path = "/books/{isbn}")
+    public ResponseEntity<BookDto> partialBookUpdate(@PathVariable("isbn") String isbn, @RequestBody BookDto Book){
+
+        BookEntity bookEntity = BookMapper.mapFrom(Book); //Converts from plain object to a database object
+        boolean foundBook = bookService.isExists(isbn); //we want to check if it exists BEFORE we create a new book
+        if(!foundBook){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        else{
+            BookEntity savedBook = bookService.partialUpdate(isbn, bookEntity); //calls the service class for book and that calls the create method to add the new databse object
+            BookDto bookDto = BookMapper.mapTo(savedBook);
+            return new ResponseEntity<>(bookDto, HttpStatus.OK);
+        }
+    }
+
+
+
+
 
 
 
