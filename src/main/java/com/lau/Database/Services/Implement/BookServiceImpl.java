@@ -6,6 +6,8 @@ import com.lau.Database.domain.Entity.AuthorEntity;
 import com.lau.Database.domain.Entity.BookEntity;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -35,6 +37,14 @@ public class BookServiceImpl implements BookService {
                 .collect(Collectors.toList());
 
     }
+
+
+    //overloaded
+    @Override
+    public Page<BookEntity> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
+    }
+
 
     @Override
     public Optional<BookEntity> findOne(String isbn) {
