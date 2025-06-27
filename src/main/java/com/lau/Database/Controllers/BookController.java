@@ -4,6 +4,8 @@ package com.lau.Database.Controllers;
 import com.lau.Database.Services.BookService;
 import com.lau.Database.domain.Entity.BookEntity;
 import com.lau.Database.domain.dto.BookDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import com.lau.Database.Mappers.Mapper;
@@ -69,10 +71,15 @@ public class BookController {
 
 
     @GetMapping(path = "/books")
-    public List<BookDto> listOfBooks(){
-        List<BookEntity> books = bookService.findAll();
-        return books.stream().map(BookMapper::mapTo).collect(Collectors.toList());
+    public Page<BookDto> listOfBooks(Pageable pageable){
+        Page<BookEntity> books = bookService.findAll(pageable);
+       return books.map(BookMapper::mapTo);
+
     }
+
+
+
+
 
 
     @GetMapping(path = "/books/{isbn}")
