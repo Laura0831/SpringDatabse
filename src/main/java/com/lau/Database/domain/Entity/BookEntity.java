@@ -22,7 +22,7 @@ public class BookEntity {
 
     @ManyToOne(cascade = CascadeType.ALL) //this means if we get a book back, we also get to retrieve the author and all the values in the author class
     @JoinColumn(name = "author_id")
-    private AuthorEntity authorEntity;
+    private AuthorEntity author;
 
 
 }
