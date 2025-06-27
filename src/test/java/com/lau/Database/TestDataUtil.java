@@ -85,7 +85,7 @@ public final class TestDataUtil {
         return BookDto.builder()
                 .isbn("978-1-6196-3518-0")
                 .title("Acotar")
-                .authorDto(authorDto)
+                .author(authorDto)
                 .build();
     }
 

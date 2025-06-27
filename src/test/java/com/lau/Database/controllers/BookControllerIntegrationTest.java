@@ -87,8 +87,9 @@ public class BookControllerIntegrationTest {
                         MockMvcRequestBuilders.get("/books")
                                 .contentType(MediaType.APPLICATION_JSON)
                 )
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].isbn").value("978-1-9848-0675-8"))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].title").value("People we meet on Vacation")); //similar to AssertTrue on Junit
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].isbn").value("978-1-9848-0675-8"))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.content[0].title").value("People we meet on Vacation"));
+        //similar to AssertTrue on Junit
 
     }
 
