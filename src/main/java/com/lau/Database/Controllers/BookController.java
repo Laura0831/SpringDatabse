@@ -81,7 +81,7 @@ public class BookController {
 
 
 
-
+    //retrieves a book with the given isbn id
     @GetMapping(path = "/books/{isbn}")
     public ResponseEntity<BookDto> GetBook(@PathVariable("isbn") String isbn){
 
@@ -94,7 +94,7 @@ public class BookController {
 
     }
 
-
+    //deletes the whole book
     @DeleteMapping(path = "/books/{isbn}")
     public ResponseEntity DeleteBook(@PathVariable("isbn") String isbn){
         bookService.delete(isbn);
