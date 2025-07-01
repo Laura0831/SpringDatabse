@@ -12,6 +12,8 @@ Containerization: Docker
 
 Database: PostGreSQL
 
+Cloud: AWS
+
 Testing: Junit, Integration Test
 
 DevOps: Maven
