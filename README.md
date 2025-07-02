@@ -8,7 +8,7 @@ Language: Java
 
 Framework: Spring Boot with Spring Data JPA
 
-Containerization: Docker
+Containerization: Docker and Docker Compose
 
 Database: PostGreSQL
 
