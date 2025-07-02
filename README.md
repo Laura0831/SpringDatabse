@@ -12,7 +12,7 @@ Containerization: Docker and Docker Compose
 
 Database: PostGreSQL
 
-Cloud: AWS(Ec2, Security Groups, IAM)
+Cloud: AWS(Ec2, Security Groups, IAM) - Not running at the moment
 
 Testing: Junit, Integration Test
 
