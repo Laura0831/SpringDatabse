@@ -12,7 +12,7 @@ Containerization: Docker
 
 Database: PostGreSQL
 
-Cloud: AWS(Ec2, RDS)
+Cloud: AWS(Ec2, Security Groups)
 
 Testing: Junit, Integration Test
 
